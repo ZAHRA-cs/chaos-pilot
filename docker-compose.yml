@@ -1,0 +1,15 @@
+services:
+  canary:
+   build: ./canary
+   ports:
+    - "5000:5000"
+
+
+  redis:
+   image: redis:alpine
+
+
+  postgres:
+   image: postgres:15
+   environment:
+    POSTGRES_PASSWORD: secret
