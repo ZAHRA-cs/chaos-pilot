@@ -6,10 +6,15 @@ services:
   gremlins:
     build: ./gremlins
     environment:
-      -PYTHONUNBUFFERED: "1"
+       PYTHONUNBUFFERED: "1"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
+  medic:
+    build: ./medic
+    environment:
+       PYTHONUNBUFFERED: "1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
   redis:
    image: redis:alpine
