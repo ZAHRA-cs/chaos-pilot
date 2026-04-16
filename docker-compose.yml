@@ -3,6 +3,12 @@ services:
    build: ./canary
    ports:
     - "5000:5000"
+  gremlins:
+    build: ./gremlins
+    environment:
+      -PYTHONUNBUFFERED: "1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
 
   redis:
@@ -13,3 +19,4 @@ services:
    image: postgres:15
    environment:
     POSTGRES_PASSWORD: secret
+
