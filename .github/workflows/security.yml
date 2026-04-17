@@ -1,0 +1,39 @@
+name: Security Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run dependency scan
+        run: |
+          pip install safety
+          safety check -r canary/requirements.txt
+          safety check -r gremlins/requirements.txt
+          safety check -r medic/requirements.txt
+
+      - name: Run image scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'chaos-pilot-canary'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+
+
+      - name: Run code analysis
+        run: |
+          pip install bandit
+          bandit -r canary/
+          bandit -r gremlins/
+          bandit -r medic/
