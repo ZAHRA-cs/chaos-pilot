@@ -5,17 +5,17 @@ import time
 client = docker.from_env()
 
 def kill_container(client):
-    containers = [c for c in client.containers.list() if "gremlins" not in c.name]
+    containers = [c for c in client.containers.list() if "gremlins" not in c.name and "grafana" not in c.name and "prometheus" not in c.name]
     target = random.choice(containers)
     target.stop()
 
 def cpu_spike(client):
-    containers = [c for c in client.containers.list() if "gremlins" not in c.name]
+    containers = [c for c in client.containers.list() if "gremlins" not in c.name and "grafana" not in c.name and "prometheus" not in c.name]
     target = random.choice(containers)
     target.exec_run("stress --cpu 1 --timeout 30")
 
 def memory_spike(client):
-    containers = [c for c in client.containers.list() if "gremlins" not in c.name]
+    containers = [c for c in client.containers.list() if "gremlins" not in c.name and "grafana" not in c.name and "prometheus" not in c.name]
     target = random.choice(containers)
     target.exec_run("stress --vm 1 --vm-bytes 256M --timeout 30")
 
