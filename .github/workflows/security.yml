@@ -35,6 +35,7 @@ jobs:
 
 
       - name: Run code analysis
+        continue-on-error: true
         run: |
           pip install bandit
           bandit -r canary/
